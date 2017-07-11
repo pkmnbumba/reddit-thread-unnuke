@@ -1,7 +1,6 @@
 'use strict';
 /* global snoowrap */
-var REDDIT_APP_ID = '_s9Icw2TEXpmaw
-';
+var REDDIT_APP_ID = '_s9Icw2TEXpmaw';
 var REDIRECT_URI = 'https://pkmnbumba.github.io/reddit-thread-unnuke/';
 
 var USER_AGENT = 'reddit thread un-nuke by /u/bumbalicious || https://github.com/pkmnbumba/reddit-thread-unnuke';
