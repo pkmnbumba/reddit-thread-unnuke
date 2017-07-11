@@ -68,7 +68,7 @@ function deepApprove (content, preserveDistinguished) {
     : content.approve().tap(incrementCounter);
   return Promise.all(Array.from(replies).map(function (reply) {
     return deepApprove(reply, preserveDistinguished);
-  }).concat([approveoveCurrentItem]));
+  }).concat([approveCurrentItem]));
 }
 
 function getAccessToken (code) {
