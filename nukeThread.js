@@ -61,6 +61,16 @@ function deepRemove (content, preserveDistinguished) {
   }).concat([removeCurrentItem]));
 }
 
+function deepApprove (content, preserveDistinguished, preserveRemoved) {
+  var replies = content.comments || content.replies;
+  var approveCurrentItem = content.distinguished && preserveDistinguished || content.banned_by !== null
+    ? Promise.resolve()
+    : content.approve().tap(incrementCounter);
+  return Promise.all(Array.from(replies).map(function (reply) {
+    return deepApprove(reply, preserveDistinguished, preserveRemoved);
+  }).concat([approveCurrentItem]));
+}
+
 function getAccessToken (code) {
   if (accessTokenPromise) {
     return accessTokenPromise;
@@ -99,7 +109,7 @@ function getRequester (access_token) {
   return cachedRequester;
 }
 
-function nukeThread (url) {
+function nukeThread (url, toNuke) {
   var parsedUrl;
   removedCount = 0;
   try {
@@ -118,7 +128,12 @@ function nukeThread (url) {
     .then(function (r) {
       return getExpandedContent(r, parsedUrl);
     }).then(function (content) {
-      return deepRemove(content, document.getElementById('preserve-distinguished-checkbox').checked);
+      if (toNuke == "nuke") {
+        return deepRemove(content, document.getElementById('preserve-distinguished-checkbox').checked);
+      } else {
+        return deepApprove(content, document.getElementById('preserve-distinguished-checkbox').checked, document.getElementById('preserve-removed-checkbox').checked);
+      }
+
     }).then(function () {
       document.getElementById('done-message').style.display = 'block';
     })
@@ -135,10 +150,8 @@ function onSubmitClicked () { // eslint-disable-line no-unused-vars
   var preserveDistinguished = document.getElementById('preserve-distinguished-checkbox').checked;
   var e = document.getElementById("to-nuke");
   var toNuke = document.getElementById("to-nuke").value;
-  console.log(toNuke);
-  console.log(typeof toNuke);
   if (cookies.access_token || query.code) {
-    return nukeThread(url);
+    return nukeThread(url, toNuke);
   }
   location = getAuthRedirect(JSON.stringify({url, preserveDistinguished}));
 }
@@ -150,8 +163,6 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('thread-url-box').value = url;
     document.getElementById('preserve-distinguished-checkbox').checked = parsedState.preserveDistinguished;
     var toNuke = document.getElementById("to-nuke").value;
-    console.log(toNuke);
-    console.log(typeof toNuke);
-    nukeThread(url);
+    nukeThread(url, toNuke);
   }
 });
