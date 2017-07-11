@@ -3,7 +3,7 @@
 var REDDIT_APP_ID = 'eMtnG_o0IDhiVA';
 var REDIRECT_URI = 'https://pkmnbumba.github.io/reddit-thread-unnuke/';
 
-var USER_AGENT = 'reddit thread un-nuke by /u/bumbalicious || https://pkmnbumba.github.io/reddit-thread-unnuke';
+var USER_AGENT = 'reddit thread nuke by /u/not_an_aardvark || https://github.com/not-an-aardvark/reddit-thread-nuke';
 var REQUIRED_SCOPES = ['modposts', 'read'];
 var cachedRequester;
 var accessTokenPromise;
