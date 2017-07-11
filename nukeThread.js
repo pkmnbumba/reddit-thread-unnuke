@@ -176,7 +176,7 @@ function onSubmitClicked () { // eslint-disable-line no-unused-vars
   var preserveDistinguished = document.getElementById('preserve-distinguished-checkbox').checked;
   console.log(encodeURIComponent(url));
   if (cookies.access_token || query.code) {
-    return unNukeThread(url);
+    return nukeThread(url);
   }
   location = getAuthRedirect(JSON.stringify({url, preserveDistinguished}));
 }
