@@ -174,10 +174,13 @@ function unNukeThread (url) {
 function onSubmitClicked () { // eslint-disable-line no-unused-vars
   var url = document.getElementById('thread-url-box').value;
   var preserveDistinguished = document.getElementById('preserve-distinguished-checkbox').checked;
+  console.log(encodeURIComponent(url));
+  /*
   if (cookies.access_token || query.code) {
     return unNukeThread(url);
   }
   location = getAuthRedirect(JSON.stringify({url, preserveDistinguished}));
+  */
 }
 
 document.addEventListener('DOMContentLoaded', function () {
