@@ -133,7 +133,7 @@ function nukeThread (url) {
 function onSubmitClicked () { // eslint-disable-line no-unused-vars
   var url = document.getElementById('thread-url-box').value;
   var preserveDistinguished = document.getElementById('preserve-distinguished-checkbox').checked;
-  var e = document.getElementById("toNuke");
+  var e = document.getElementById("to-nuke");
   var toNuke = e.options[e.selectedIndex].value;
   console.log(toNuke);
   console.log(typeof toNuke);
@@ -149,6 +149,10 @@ document.addEventListener('DOMContentLoaded', function () {
     var url = decodeURIComponent(parsedState.url);
     document.getElementById('thread-url-box').value = url;
     document.getElementById('preserve-distinguished-checkbox').checked = parsedState.preserveDistinguished;
+    var e = document.getElementById("to-nuke");
+    var toNuke = e.options[e.selectedIndex].value;
+    console.log(toNuke);
+    console.log(typeof toNuke);
     nukeThread(url);
   }
 });
