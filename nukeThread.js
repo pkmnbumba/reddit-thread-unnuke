@@ -133,6 +133,10 @@ function nukeThread (url) {
 function onSubmitClicked () { // eslint-disable-line no-unused-vars
   var url = document.getElementById('thread-url-box').value;
   var preserveDistinguished = document.getElementById('preserve-distinguished-checkbox').checked;
+  var e = document.getElementById("toNuke");
+  var toNuke = e.options[e.selectedIndex].value;
+  console.log(toNuke);
+  console.log(typeof toNuke);
   if (cookies.access_token || query.code) {
     return nukeThread(url);
   }
