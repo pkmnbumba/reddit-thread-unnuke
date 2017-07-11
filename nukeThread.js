@@ -3,7 +3,7 @@
 var REDDIT_APP_ID = 'eMtnG_o0IDhiVA';
 var REDIRECT_URI = 'https://pkmnbumba.github.io/reddit-thread-unnuke/';
 
-var USER_AGENT = 'reddit thread nuke by /u/not_an_aardvark || https://github.com/not-an-aardvark/reddit-thread-nuke';
+var USER_AGENT = 'reddit thread un-nuke by /u/bumbalicious || https://github.com/pkmnbumba/reddit-thread-unnuke';
 var REQUIRED_SCOPES = ['modposts', 'read'];
 var cachedRequester;
 var accessTokenPromise;
@@ -36,7 +36,7 @@ function parseCookieString (cookieString) {
 }
 
 var getAuthRedirect = function (state) {
-  return `https://reddit.com/api/v1/authorize?client_id=${REDDIT_APP_ID}&response_type=code&state=${encodeURIComponent(state)}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&duration=permanent&scope=${REQUIRED_SCOPES.join('%2C')}`;
+  return `https://reddit.com/api/v1/authorize?client_id=${REDDIT_APP_ID}&response_type=code&state=${encodeURIComponent(state)}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&duration=temporary&scope=${REQUIRED_SCOPES.join('%2C')}`;
 };
 
 function parseUrl (url) {
@@ -59,16 +59,6 @@ function deepRemove (content, preserveDistinguished) {
   return Promise.all(Array.from(replies).map(function (reply) {
     return deepRemove(reply, preserveDistinguished);
   }).concat([removeCurrentItem]));
-}
-
-function deepApprove (content, preserveDistinguished) {
-  var replies = content.comments || content.replies;
-  var approveCurrentItem = content.distinguished && preserveDistinguished || content.banned_by !== null
-    ? Promise.resolve()
-    : content.approve().tap(incrementCounter);
-  return Promise.all(Array.from(replies).map(function (reply) {
-    return deepApprove(reply, preserveDistinguished);
-  }).concat([approveCurrentItem]));
 }
 
 function getAccessToken (code) {
@@ -140,41 +130,9 @@ function nukeThread (url) {
     });
 }
 
-function unNukeThread (url) {
-  var parsedUrl;
-  removedCount = 0;
-  try {
-    parsedUrl = parseUrl(url);
-  } catch (err) {
-    document.getElementById('url-error-message').innerHTML = err.message;
-    document.getElementById('url-error-message').style.display = 'block';
-    throw err;
-  }
-  document.getElementById('url-error-message').style.display = 'none';
-  document.getElementById('error-output').style.display = 'none';
-  document.getElementById('loading-message').style.display = 'block';
-  document.getElementById('done-message').style.display = 'none';
-  return getAccessToken(query.code)
-    .then(getRequester)
-    .then(function (r) {
-      return getExpandedContent(r, parsedUrl);
-    }).then(function (content) {
-      return deepApprove(content, document.getElementById('preserve-distinguished-checkbox').checked);
-    }).then(function () {
-      document.getElementById('done-message').style.display = 'block';
-    })
-    .catch(function (err) {
-      document.getElementById('error-output').style.display = 'block';
-      document.getElementById('loading-message').style.display = 'none';
-      document.getElementById('done-message').style.display = 'none';
-      throw err;
-    });
-}
-
 function onSubmitClicked () { // eslint-disable-line no-unused-vars
   var url = document.getElementById('thread-url-box').value;
   var preserveDistinguished = document.getElementById('preserve-distinguished-checkbox').checked;
-  console.log(encodeURIComponent(url));
   if (cookies.access_token || query.code) {
     return nukeThread(url);
   }
