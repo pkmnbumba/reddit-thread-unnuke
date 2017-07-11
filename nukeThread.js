@@ -36,7 +36,7 @@ function parseCookieString (cookieString) {
 }
 
 var getAuthRedirect = function (state) {
-  return `https://reddit.com/api/v1/authorize?client_id=${REDDIT_APP_ID}&response_type=code&state=${encodeURIComponent(state)}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&duration=temporary&scope=${REQUIRED_SCOPES.join('%2C')}`;
+  return `https://reddit.com/api/v1/authorize?client_id=${REDDIT_APP_ID}&response_type=code&state=${encodeURIComponent(state)}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&duration=permanent&scope=${REQUIRED_SCOPES.join('%2C')}`;
 };
 
 function parseUrl (url) {
