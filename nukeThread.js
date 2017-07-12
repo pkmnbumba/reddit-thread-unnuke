@@ -8,7 +8,6 @@ var REQUIRED_SCOPES = ['modposts', 'read'];
 var cachedRequester;
 var accessTokenPromise;
 var removedCount;
-var currentUser;
 
 var query = parseQueryString(location.search);
 var cookies = parseCookieString(document.cookie);
@@ -66,7 +65,6 @@ function deepApprove (content, preserveRemoved) {
   var replies = content.comments || content.replies;
   if (content.banned_by !== null) {
     console.log(content.banned_by['name']);
-    console.log(currentUser['name']);
     var determineRemoved = preserveRemoved;
   }
   var approveCurrentItem = !content.removed || content.banned_by === null
@@ -132,7 +130,6 @@ function nukeThread (url, toNuke) {
   return getAccessToken(query.code)
     .then(getRequester)
     .then(function (r) {
-      currentUser = r.getMe();
       return getExpandedContent(r, parsedUrl);
     }).then(function (content) {
       if (toNuke === "nuke") {
