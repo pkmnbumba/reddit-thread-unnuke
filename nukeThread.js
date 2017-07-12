@@ -68,7 +68,7 @@ function deepApprove (content, preserveRemoved) {
   if (content.banned_by !== null) {
     removeByOther = content.banned_by['name'] !== currentUser;
   }
-  var stayRemoved = !(preserveRemoved && removeByOther);
+  var stayRemoved = preserveRemoved && removeByOther;
   var approveCurrentItem = stayRemoved || content.banned_by === null
     ? Promise.resolve()
     : content.approve().tap(incrementCounter);
