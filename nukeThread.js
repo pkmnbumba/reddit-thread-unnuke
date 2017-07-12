@@ -66,6 +66,7 @@ function deepApprove (content, preserveRemoved) {
   var replies = content.comments || content.replies;
   if (content.banned_by !== null) {
     console.log(content.banned_by['name']);
+    console.log(currentUser['name']);
     var determineRemoved = preserveRemoved;
   }
   var approveCurrentItem = !content.removed || content.banned_by === null
