@@ -63,6 +63,8 @@ function deepRemove (content, preserveDistinguished) {
 
 function deepApprove (content, preserveDistinguished, preserveRemoved) {
   var replies = content.comments || content.replies;
+  console.log(content.removed);
+  console.log(!content.banned_by);
   var approveCurrentItem = content.removed && !content.banned_by !== null
     ? Promise.resolve()
     : content.approve().tap(incrementCounter);
