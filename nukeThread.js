@@ -8,6 +8,7 @@ var REQUIRED_SCOPES = ['modposts', 'read'];
 var cachedRequester;
 var accessTokenPromise;
 var removedCount;
+var currentUser;
 
 var query = parseQueryString(location.search);
 var cookies = parseCookieString(document.cookie);
@@ -65,6 +66,7 @@ function deepApprove (content, preserveRemoved) {
   var replies = content.comments || content.replies;
   if (content.banned_by !== null) {
     console.log(content.banned_by['name']);
+    console.log(currentUser);
     var determineRemoved = preserveRemoved;
   }
   var approveCurrentItem = !content.removed || content.banned_by === null
@@ -110,6 +112,7 @@ function getRequester (access_token) {
   }
   cachedRequester = new snoowrap({user_agent: USER_AGENT, access_token});
   cachedRequester.config({debug: true, continue_after_ratelimit_error: true});
+  currentUser = cachedRequester.getMe();
   return cachedRequester;
 }
 
@@ -152,7 +155,6 @@ function nukeThread (url, toNuke) {
 function onSubmitClicked () { // eslint-disable-line no-unused-vars
   var url = document.getElementById('thread-url-box').value;
   var preserveDistinguished = document.getElementById('preserve-distinguished-checkbox').checked;
-  var e = document.getElementById("to-nuke");
   var toNuke = document.getElementById("to-nuke").value;
   if (cookies.access_token || query.code) {
     return nukeThread(url, toNuke);
