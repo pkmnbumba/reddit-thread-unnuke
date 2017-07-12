@@ -66,6 +66,7 @@ function deepApprove (content, preserveRemoved) {
   var replies = content.comments || content.replies;
   if (content.banned_by !== null) {
     console.log(content.banned_by['name']);
+    console.log(currentUser);
     var determineRemoved = preserveRemoved;
   }
   var approveCurrentItem = !content.removed || content.banned_by === null
@@ -130,8 +131,8 @@ function nukeThread (url, toNuke) {
   document.getElementById('done-message').style.display = 'none';
   return getAccessToken(query.code)
     .then(getRequester)
-    .then(console.log)
     .then(function (r) {
+      currentUser = r.getMe();
       return getExpandedContent(r, parsedUrl);
     }).then(function (content) {
       if (toNuke === "nuke") {
