@@ -4,10 +4,11 @@ var REDDIT_APP_ID = '_s9Icw2TEXpmaw';
 var REDIRECT_URI = 'https://pkmnbumba.github.io/reddit-thread-unnuke/';
 
 var USER_AGENT = 'reddit thread un-nuke by /u/bumbalicious || https://github.com/pkmnbumba/reddit-thread-unnuke';
-var REQUIRED_SCOPES = ['modposts', 'read'];
+var REQUIRED_SCOPES = ['modposts', 'read', 'identity'];
 var cachedRequester;
 var accessTokenPromise;
 var removedCount;
+var currentUser;
 
 var query = parseQueryString(location.search);
 var cookies = parseCookieString(document.cookie);
@@ -131,6 +132,7 @@ function nukeThread (url, toNuke) {
     .then(getRequester)
     .then(function (r) {
       r.getMe().then(console.log);
+      currentUser = r.getMe();
       return getExpandedContent(r, parsedUrl);
     }).then(function (content) {
       if (toNuke === "nuke") {
