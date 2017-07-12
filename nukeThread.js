@@ -63,7 +63,6 @@ function deepRemove (content, preserveDistinguished) {
 
 function deepApprove (content, preserveRemoved) {
   var replies = content.comments || content.replies;
-  cachedRequester.getMe().then(console.log);
   if (content.banned_by !== null) {
     console.log(content.banned_by['name']);
     var determineRemoved = preserveRemoved;
