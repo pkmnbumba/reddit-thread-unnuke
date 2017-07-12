@@ -64,9 +64,9 @@ function deepRemove (content, preserveDistinguished) {
 function deepApprove (content, preserveRemoved) {
   var replies = content.comments || content.replies;
   console.log(content.banned_by['name']);
-  console.log(cachedRequester['username']);
+  console.log(cachedRequester);
   var determineRemoved = preserveRemoved;
-  var approveCurrentItem = content.removed || content.banned_by === null
+  var approveCurrentItem = !content.removed || content.banned_by === null
     ? Promise.resolve()
     : content.approve().tap(incrementCounter);
   return Promise.all(Array.from(replies).map(function (reply) {
@@ -131,7 +131,7 @@ function nukeThread (url, toNuke) {
     .then(function (r) {
       return getExpandedContent(r, parsedUrl);
     }).then(function (content) {
-      if (toNuke == "nuke") {
+      if (toNuke === "nuke") {
         return deepRemove(content, document.getElementById('preserve-distinguished-checkbox').checked);
       } else {
         return deepApprove(content, document.getElementById('preserve-removed-checkbox').checked);
