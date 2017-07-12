@@ -66,7 +66,6 @@ function deepApprove (content, preserveRemoved) {
   var replies = content.comments || content.replies;
   if (content.banned_by !== null) {
     console.log(content.banned_by['name']);
-    console.log(currentUser);
     var determineRemoved = preserveRemoved;
   }
   var approveCurrentItem = !content.removed || content.banned_by === null
@@ -112,7 +111,7 @@ function getRequester (access_token) {
   }
   cachedRequester = new snoowrap({user_agent: USER_AGENT, access_token});
   cachedRequester.config({debug: true, continue_after_ratelimit_error: true});
-  currentUser = cachedRequester.getMe();
+  cachedRequester.getMe().then(console.log);
   return cachedRequester;
 }
 
