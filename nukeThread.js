@@ -168,8 +168,6 @@ function showHide() {
   var selected = document.getElementById('to-nuke').value;
   var distinguished = document.getElementById('distinguished-container');
   var removed = document.getElementById('removed-container');
-  console.log(selected == "nuke" ? "block" : "none");
-  console.log(selected == "unnuke" ? "block" : "none");
   distinguished.style.display = selected == "nuke" ? "block" : "none";
   removed.style.display = selected == "unnuke" ? "block" : "none"
 }
