@@ -132,8 +132,7 @@ function nukeThread (url, toNuke) {
   return getAccessToken(query.code)
     .then(getRequester)
     .then(function (r) {
-      r.getMe().then(console.log);
-      currentUser = r.getMe()['name'];
+      currentUser = r.getMe().name;
       console.log(currentUser);
       return getExpandedContent(r, parsedUrl);
     }).then(function (content) {
