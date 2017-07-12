@@ -61,15 +61,16 @@ function deepRemove (content, preserveDistinguished) {
   }).concat([removeCurrentItem]));
 }
 
-function deepApprove (content, preserveDistinguished, preserveRemoved) {
+function deepApprove (content, preserveRemoved) {
   var replies = content.comments || content.replies;
-  console.log(content.removed);
-  console.log(!content.banned_by);
-  var approveCurrentItem = content.banned_by === null
+  console.log(content.banned_by);
+  console.log(typeof content.banned_by);
+  var determineRemoved = preserveRemoved;
+  var approveCurrentItem = content.removed || content.banned_by === null
     ? Promise.resolve()
     : content.approve().tap(incrementCounter);
   return Promise.all(Array.from(replies).map(function (reply) {
-    return deepApprove(reply, preserveDistinguished, preserveRemoved);
+    return deepApprove(reply, preserveRemoved);
   }).concat([approveCurrentItem]));
 }
 
@@ -133,7 +134,7 @@ function nukeThread (url, toNuke) {
       if (toNuke == "nuke") {
         return deepRemove(content, document.getElementById('preserve-distinguished-checkbox').checked);
       } else {
-        return deepApprove(content, document.getElementById('preserve-distinguished-checkbox').checked, document.getElementById('preserve-removed-checkbox').checked);
+        return deepApprove(content, document.getElementById('preserve-removed-checkbox').checked);
       }
 
     }).then(function () {
@@ -164,6 +165,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var url = decodeURIComponent(parsedState.url);
     document.getElementById('thread-url-box').value = url;
     document.getElementById('preserve-distinguished-checkbox').checked = parsedState.preserveDistinguished;
+    document.getElementById('preserve-removed-checkbox').checked = parsedState.preserveRemoved;
     var toNuke = document.getElementById("to-nuke").value;
     nukeThread(url, toNuke);
   }
