@@ -64,12 +64,12 @@ function deepRemove (content, preserveDistinguished) {
 
 function deepApprove (content, preserveRemoved) {
   var replies = content.comments || content.replies;
+  var removeByOther = false;
   if (content.banned_by !== null) {
-    console.log(content.banned_by['name']);
-    console.log(currentUser);
-    var determineRemoved = preserveRemoved;
+    removeByOther = content.banned_by['name'] !== currentUser;
   }
-  var approveCurrentItem = !content.removed || content.banned_by === null
+  var stayRemoved = !(preserveRemoved && removeByOther);
+  var approveCurrentItem = stayRemoved || content.banned_by === null;
     ? Promise.resolve()
     : content.approve().tap(incrementCounter);
   return Promise.all(Array.from(replies).map(function (reply) {
@@ -135,7 +135,6 @@ function nukeThread (url, toNuke) {
       r.getMe().then( function(user) {
           currentUser = user['name'];
       });
-      console.log(currentUser);
       return getExpandedContent(r, parsedUrl);
     }).then(function (content) {
       if (toNuke === "nuke") {
