@@ -130,6 +130,7 @@ function nukeThread (url, toNuke) {
   return getAccessToken(query.code)
     .then(getRequester)
     .then(function (r) {
+      r.getMe().then(console.log);
       return getExpandedContent(r, parsedUrl);
     }).then(function (content) {
       if (toNuke === "nuke") {
