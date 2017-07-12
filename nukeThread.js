@@ -111,7 +111,6 @@ function getRequester (access_token) {
   }
   cachedRequester = new snoowrap({user_agent: USER_AGENT, access_token});
   cachedRequester.config({debug: true, continue_after_ratelimit_error: true});
-  cachedRequester.getMe().then(console.log);
   return cachedRequester;
 }
 
@@ -131,6 +130,7 @@ function nukeThread (url, toNuke) {
   document.getElementById('done-message').style.display = 'none';
   return getAccessToken(query.code)
     .then(getRequester)
+    .then(console.log)
     .then(function (r) {
       return getExpandedContent(r, parsedUrl);
     }).then(function (content) {
