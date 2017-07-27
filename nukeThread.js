@@ -128,6 +128,7 @@ function nukeThread (url, toNuke) {
     .then(function (r) {
       return Promise.all([r.getMe(), getExpandedContent(r, parsedUrl)])
         .then(function ([{name},content]) {
+        console.log(name);
         if (toNuke === "nuke") {
             return deepRemove(content, document.getElementById('preserve-distinguished-checkbox').checked);
         } else {
