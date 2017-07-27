@@ -65,8 +65,8 @@ function deepApprove (content, preserveRemoved, name) {
   var replies = content.comments || content.replies;
   console.log(name);
   console.log(preserveRemoved);
-  console.log(preserveRemoved && content.banned_by.name !== name);
-  var approveCurrentItem = !content.banned_by || preserveRemoved && content.banned_by.name !== name
+  console.log(preserveRemoved && content.banned_by['name'] !== name);
+  var approveCurrentItem = !content.banned_by || preserveRemoved && content.banned_by['name'] !== name
   ? Promise.resolve()
   : content.approve().tap(incrementCounter);
   return Promise.all(Array.from(replies).map(function (reply) {
