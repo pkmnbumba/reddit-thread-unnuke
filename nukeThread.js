@@ -170,7 +170,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var url = decodeURIComponent(parsedState.url);
     document.getElementById('thread-url-box').value = url;
     document.getElementById('preserve-distinguished-checkbox').checked = parsedState.preserveDistinguished;
-    document.getElementById('preserve-removed-checkbox').checked = parsedState.reserveRemoved;
+    document.getElementById('preserve-removed-checkbox').checked = parsedState.preserveRemoved;
     var toNuke = document.getElementById("to-nuke").value;
     nukeThread(url, toNuke);
   }
