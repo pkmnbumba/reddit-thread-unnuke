@@ -156,11 +156,12 @@ function showHide() {
 function onSubmitClicked () { // eslint-disable-line no-unused-vars
   var url = document.getElementById('thread-url-box').value;
   var preserveDistinguished = document.getElementById('preserve-distinguished-checkbox').checked;
+  var removeDistinguished = document.getElementById('preserve-removed-checkbox').checked;
   var toNuke = document.getElementById("to-nuke").value;
   if (cookies.access_token || query.code) {
     return nukeThread(url, toNuke);
   }
-  location = getAuthRedirect(JSON.stringify({url, preserveDistinguished}));
+  location = getAuthRedirect(JSON.stringify({url, preserveDistinguished, preserveRemoved}));
 }
 
 document.addEventListener('DOMContentLoaded', function () {
