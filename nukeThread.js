@@ -63,17 +63,11 @@ function deepRemove (content, preserveDistinguished) {
 
 function deepApprove (content, preserveRemoved, name) {
   var replies = content.comments || content.replies;
-  var removeByOther = false;
-  if (content.banned_by !== null) {
-    console.log(content.banned_by.name);
-    console.log(name);
-    removeByOther = content.banned_by.name !== name;
-  } 
-  var approveCurrentItem = !content.banned_by || preserveRemoved && removeByOther
+  var approveCurrentItem = !content.banned_by || preserveRemoved && content.banned_by.name !== name
     ? Promise.resolve()
     : content.approve().tap(incrementCounter);
   return Promise.all(Array.from(replies).map(function (reply) {
-    return deepApprove(reply, preserveRemoved);
+    return deepApprove(reply, preserveRemoved, name);
   }).concat([approveCurrentItem]));
 }
 
