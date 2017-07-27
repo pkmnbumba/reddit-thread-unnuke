@@ -156,7 +156,7 @@ function showHide() {
 function onSubmitClicked () { // eslint-disable-line no-unused-vars
   var url = document.getElementById('thread-url-box').value;
   var preserveDistinguished = document.getElementById('preserve-distinguished-checkbox').checked;
-  var removeDistinguished = document.getElementById('preserve-removed-checkbox').checked;
+  var preserveRemoved = document.getElementById('preserve-removed-checkbox').checked;
   var toNuke = document.getElementById("to-nuke").value;
   if (cookies.access_token || query.code) {
     return nukeThread(url, toNuke);
@@ -170,7 +170,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var url = decodeURIComponent(parsedState.url);
     document.getElementById('thread-url-box').value = url;
     document.getElementById('preserve-distinguished-checkbox').checked = parsedState.preserveDistinguished;
-    document.getElementById('preserve-removed-checkbox').checked = parsedState.preserveRemoved;
+    document.getElementById('preserve-removed-checkbox').checked = parsedState.reserveRemoved;
     var toNuke = document.getElementById("to-nuke").value;
     nukeThread(url, toNuke);
   }
