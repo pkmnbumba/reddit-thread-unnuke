@@ -8,7 +8,6 @@ var REQUIRED_SCOPES = ['modposts', 'read', 'identity'];
 var cachedRequester;
 var accessTokenPromise;
 var removedCount;
-var currentUser;
 
 var query = parseQueryString(location.search);
 var cookies = parseCookieString(document.cookie);
@@ -127,14 +126,14 @@ function nukeThread (url, toNuke) {
   return getAccessToken(query.code)
     .then(getRequester)
     .then(function (r) {
-      return Promise.all([r.getMe(), getExpandedContent(r, parsedUrl)
-    ]).then(function ([{name},content]) {
-      if (toNuke === "nuke") {
-        return deepRemove(content, document.getElementById('preserve-distinguished-checkbox').checked);
-      } else {
-        return deepApprove(content, document.getElementById('preserve-removed-checkbox').checked, name);
-      }
-
+      return Promise.all([r.getMe(), getExpandedContent(r, parsedUrl)])
+        .then(function ([{name},content]) {
+        if (toNuke === "nuke") {
+            return deepRemove(content, document.getElementById('preserve-distinguished-checkbox').checked);
+        } else {
+            return deepApprove(content, document.getElementById('preserve-removed-checkbox').checked, name);
+        }
+      })
     }).then(function () {
       document.getElementById('done-message').style.display = 'block';
     })
