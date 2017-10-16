@@ -172,7 +172,7 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('preserve-distinguished-checkbox').checked = parsedState.preserveDistinguished;
     document.getElementById('preserve-removed-checkbox').checked = parsedState.preserveRemoved;
     document.getElementById("to-nuke").value = parsedState.toNuke;
-    toNuke = document.getElementById("to-nuke").value;
+    var toNuke = document.getElementById("to-nuke").value;
     nukeThread(url, toNuke);
   }
 });
