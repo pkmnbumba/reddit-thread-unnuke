@@ -171,7 +171,7 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('thread-url-box').value = url;
     document.getElementById('preserve-distinguished-checkbox').checked = parsedState.preserveDistinguished;
     document.getElementById('preserve-removed-checkbox').checked = parsedState.preserveRemoved;
-    var toNuke = document.getElementById("to-nuke").value;
+    document.getElementById("to-nuke").value = parsedState.toNuke;
     nukeThread(url, toNuke);
   }
 });
