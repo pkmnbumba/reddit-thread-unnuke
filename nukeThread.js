@@ -161,7 +161,7 @@ function onSubmitClicked () { // eslint-disable-line no-unused-vars
   if (cookies.access_token || query.code) {
     return nukeThread(url, toNuke);
   }
-  location = getAuthRedirect(JSON.stringify({url, preserveDistinguished, preserveRemoved}));
+  location = getAuthRedirect(JSON.stringify({url, preserveDistinguished, preserveRemoved, toNuke}));
 }
 
 document.addEventListener('DOMContentLoaded', function () {
